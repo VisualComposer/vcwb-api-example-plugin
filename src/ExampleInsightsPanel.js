@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default class YoastComponentClass extends React.Component {
+export default class ExampleInsightsPanel extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -32,7 +32,7 @@ export default class YoastComponentClass extends React.Component {
   render () {
     return (
       <div className='vcv-ui-tree-content-section-inner'>
-        Yoast panel
+        Custom Insights panel
         <p>Layout has {this.state.contentLength} characters!</p>
       </div>
     )
