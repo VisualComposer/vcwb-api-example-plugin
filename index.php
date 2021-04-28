@@ -27,9 +27,9 @@ add_action(
         $filters->listen(
             'vcv:dataAjax:getData',
             function ($response, $payload) {
-                $insightsYoast = get_post_meta($payload['sourceId'], '_vcv-insightsYoast', true);
-                if (!empty($insightsYoast)) {
-                    $response['insightsYoast'] = $insightsYoast;
+                $exampleInsights = get_post_meta($payload['sourceId'], '_vcv-exampleInsights', true);
+                if (!empty($exampleInsights)) {
+                    $response['exampleInsights'] = $exampleInsights;
                 }
                 return $response; // must return response
             }
@@ -39,9 +39,9 @@ add_action(
             'vcv:dataAjax:setData',
             function ($response, $payload) {
                 $requestHelper = vchelper('Request');
-                $insightsYoast = $requestHelper->input('insightsYoast');
+                $exampleInsights = $requestHelper->input('exampleInsights');
                 $sourceId = $payload['sourceId'];
-                update_post_meta($sourceId, '_vcv-insightsYoast', $insightsYoast);
+                update_post_meta($sourceId, '_vcv-exampleInsights', $exampleInsights);
                 return $response; // must return response
             }
         );

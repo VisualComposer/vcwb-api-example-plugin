@@ -1,7 +1,7 @@
 const dataManager = {
   savedData: {},
   saveRequestData: (data) => {
-    data.insightsYoast = dataManager.savedData
+    data.exampleInsights = dataManager.savedData
     return data
   },
   updateData: (contentLength) => {

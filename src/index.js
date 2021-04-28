@@ -4,12 +4,12 @@ import dataManager from './dataManager'
 
 window.addEventListener('load', () => {
   window.vcwbEditorApi.subscribe('savedDataLoad', (data) => {
-    if (data.insightsYoast && data.insightsYoast.contentLength) {
-      dataManager.updateData(data.insightsYoast.contentLength)
+    if (data.exampleInsights && data.exampleInsights.contentLength) {
+      dataManager.updateData(data.exampleInsights.contentLength)
     }
   })
 
-  window.vcwbEditorApi.mount('panelInsights:yoast', () => {
+  window.vcwbEditorApi.mount('panelInsights:third-party', () => {
     return <ExampleInsightsPanel
       key='panel-insights-example'
       getContentLength={dataManager.getContentLength}
@@ -46,9 +46,9 @@ window.addEventListener('load', () => {
   window.vcwbEditorApi.addFilter('saveRequestData', dataManager.saveRequestData)
 
   window.vcwbEditorApi.addFilter('insightPanelsData', (data) => {
-    data.yoast = {
+    data['third-party'] = {
       index: 1,
-      type: 'yoast',
+      type: 'third-party',
       title: 'Example Panel'
     }
     return data
