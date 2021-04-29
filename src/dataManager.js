@@ -1,3 +1,6 @@
+/**
+* Data manager provides setter and getter for information about content length
+*/
 const dataManager = {
   savedData: {},
   saveRequestData: (data) => {
