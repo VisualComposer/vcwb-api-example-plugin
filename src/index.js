@@ -3,19 +3,18 @@ import ExampleInsightsPanel from './ExampleInsightsPanel'
 import dataManager from './dataManager'
 
 window.addEventListener('load', () => {
+  /**
+  * Subscribes to event when data for post/page is received after load. 
+  * Setups dataManager data values
+  */
   window.vcwbEditorApi.subscribe('savedDataLoad', (data) => {
     if (data.exampleInsights && data.exampleInsights.contentLength) {
       dataManager.updateData(data.exampleInsights.contentLength)
     }
   })
-
-  window.vcwbEditorApi.mount('panelInsights:third-party', () => {
-    return <ExampleInsightsPanel
-      key='panel-insights-example'
-      getContentLength={dataManager.getContentLength}
-    />
-  })
-
+  /**
+  * Subscribes to layout change(content of the page) event, data of the layout will be provided as an argument
+  */
   window.vcwbEditorApi.subscribe('layoutChange', () => { window.setTimeout(() => {
     const layoutHTML = document.getElementById('vcv-editor-iframe').contentWindow.document.querySelector('.vcv-layouts-html').innerHTML
     const getTextContent = (data) => {
@@ -42,9 +41,22 @@ window.addEventListener('load', () => {
 
     dataManager.updateData(contentLength)
   }, 1000)})
-
+  /**
+  * Filters save data object
+  */
   window.vcwbEditorApi.addFilter('saveRequestData', dataManager.saveRequestData)
-
+  /**
+  * Render panel React component in places that are allowed by Visual Composer panelInsights:third-party
+  */
+  window.vcwbEditorApi.mount('panelInsights:third-party', () => {
+    return <ExampleInsightsPanel
+      key='panel-insights-example'
+      getContentLength={dataManager.getContentLength}
+    />
+  })
+  /**
+  * Filters the list of panels by adding one more option which will open on picking panelInsights:third-party mount point
+  */
   window.vcwbEditorApi.addFilter('insightPanelsData', (data) => {
     data['third-party'] = {
       index: 1,
