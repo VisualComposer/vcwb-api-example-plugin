@@ -27,8 +27,10 @@ add_action(
         $filters->listen(
             'vcv:dataAjax:getData',
             function ($response, $payload) {
+                // receive saved value
                 $exampleInsights = get_post_meta($payload['sourceId'], '_vcv-exampleInsights', true);
                 if (!empty($exampleInsights)) {
+                    // pass the value to the editor with a specific key
                     $response['exampleInsights'] = $exampleInsights;
                 }
                 return $response; // must return response
@@ -39,8 +41,10 @@ add_action(
             'vcv:dataAjax:setData',
             function ($response, $payload) {
                 $requestHelper = vchelper('Request');
+                // get our passed value from the editor
                 $exampleInsights = $requestHelper->input('exampleInsights');
                 $sourceId = $payload['sourceId'];
+                // save the value for the current page
                 update_post_meta($sourceId, '_vcv-exampleInsights', $exampleInsights);
                 return $response; // must return response
             }

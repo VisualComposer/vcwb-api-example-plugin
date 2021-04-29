@@ -29,6 +29,7 @@ API is available in Visual Composer frontend editor (main window). All available
 - ### `addFilter`
   Adds filter to get or set data. Arguments: 1. filter key, 2. callback function with an argument of provided data for that filter, add key and value to object and return data if needed. Available filter points:
   - `saveRequestData` - will be called on saving the post/page, object data that will saved will be provided as an argument, any key with value can be added and returned to this object and will be saved in DB.
+  To receive the passed key on PHP side there are events that are listening on editor loading ('vcv:dataAjax:getData') and saving ('vcv:dataAjax:setData'). On saving all passed values can be received through the request. To pass the values to the editor on load, they need to be added to the response array.
   
   Example: 
   ```
