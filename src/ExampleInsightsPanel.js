@@ -13,11 +13,13 @@ export default class ExampleInsightsPanel extends React.Component {
 
   componentDidMount () {
     window.vcwbEditorApi.subscribe('layoutChange', this.handleLayoutChange)
+    window.vcwbEditorApi.subscribe('elementUpdate', this.handleLayoutChange)
   }
 
   componentWillUnmount () {
     window.clearInterval(this.layoutChangeInterval)
     window.vcwbEditorApi.unsubscribe('layoutChange', this.handleLayoutChange)
+    window.vcwbEditorApi.unsubscribe('elementUpdate', this.handleLayoutChange)
   }
 
   handleLayoutChange () {
@@ -33,7 +35,7 @@ export default class ExampleInsightsPanel extends React.Component {
     return (
       <div className='vcv-ui-tree-content-section-inner'>
         Custom Insights panel
-        <p>Layout has {this.state.contentLength} characters!</p>
+        <p>Layout has {this.state.contentLength} words!</p>
       </div>
     )
   }

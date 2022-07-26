@@ -58,6 +58,7 @@ API is available in Visual Composer frontend editor (main window). All available
 - ### `subscribe` 
   Subscribe to events. Arguments: 1. event key, 2. callback function with an argument of provided data (if there is). Available events: 
    - `layoutChange` - will be called on layout change, data of the layout will be provided as an argument.
+   - `elementUpdate` - will be called on existing element update, id and element provided as an argument.
    
    Example:
    

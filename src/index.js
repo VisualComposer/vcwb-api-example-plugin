@@ -1,21 +1,9 @@
-import React, { useState } from 'react'
+import React from 'react'
 import ExampleInsightsPanel from './ExampleInsightsPanel'
 import dataManager from './dataManager'
 
 window.addEventListener('load', () => {
-  /**
-  * Subscribes to event when data for post/page is received after load. 
-  * Setups dataManager data values
-  */
-  window.vcwbEditorApi.subscribe('savedDataLoad', (data) => {
-    if (data.exampleInsights && data.exampleInsights.contentLength) {
-      dataManager.updateData(data.exampleInsights.contentLength)
-    }
-  })
-  /**
-  * Subscribes to layout change(content of the page) event, data of the layout will be provided as an argument
-  */
-  window.vcwbEditorApi.subscribe('layoutChange', () => { window.setTimeout(() => {
+  const getContentLength = () => {
     const layoutHTML = document.getElementById('vcv-editor-iframe').contentWindow.document.querySelector('.vcv-layouts-html').innerHTML
     const getTextContent = (data) => {
       data = data
@@ -37,31 +25,61 @@ window.addEventListener('load', () => {
 
       return documentFragment.textContent.trim()
     }
-    const contentLength = getTextContent(layoutHTML).split(/\s+/).length
 
-    dataManager.updateData(contentLength)
-  }, 1000)})
+    return getTextContent(layoutHTML).split(/\s+/).length
+  }
+
   /**
-  * Filters save data object
-  */
+   * Subscribes to event when data for post/page is received after load.
+   * Setups dataManager data values
+   */
+  window.vcwbEditorApi.subscribe('savedDataLoad', (data) => {
+    if (data.exampleInsights && data.exampleInsights.contentLength) {
+      dataManager.updateData(data.exampleInsights.contentLength)
+    }
+  })
+  /**
+   * Subscribes to layout change(content of the page) event, data of the layout will be provided as an argument
+   */
+  window.vcwbEditorApi.subscribe('layoutChange', (data) => {
+    window.setTimeout(() => {
+      const contentLength = getContentLength()
+      dataManager.updateData(contentLength)
+    }, 1000)
+  })
+
+  /**
+   * Subscribes to element update event, arguments -> id, element
+   */
+  window.vcwbEditorApi.subscribe('elementUpdate', (id, element) => {
+    window.setTimeout(() => {
+      const contentLength = getContentLength()
+      dataManager.updateData(contentLength)
+    }, 1000)
+  })
+
+  /**
+   * Filters save data object
+   */
   window.vcwbEditorApi.addFilter('saveRequestData', dataManager.saveRequestData)
   /**
-  * Render panel React component in places that are allowed by Visual Composer panelInsights:third-party
-  */
-  window.vcwbEditorApi.mount('panelInsights:third-party', () => {
+   * Render panel React component in places that are allowed by Visual Composer panelInsights:third-party
+   */
+  window.vcwbEditorApi.mount('panelMessages:third-party', () => {
     return <ExampleInsightsPanel
-      key='panel-insights-example'
+      key='panel-messages-example'
       getContentLength={dataManager.getContentLength}
     />
   })
   /**
-  * Filters the list of panels by adding one more option which will open on picking panelInsights:third-party mount point
-  */
+   * Filters the list of panels by adding one more option which will open on picking panelInsights:third-party mount point
+   */
   window.vcwbEditorApi.addFilter('insightPanelsData', (data) => {
     data['third-party'] = {
       index: 1,
       type: 'third-party',
-      title: 'Example Panel'
+      title: 'Example Panel',
+      icon: 'yoast-small' // icon list are predefined in plugin core
     }
     return data
   })
