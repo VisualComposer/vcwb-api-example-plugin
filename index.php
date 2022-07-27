@@ -1,8 +1,8 @@
 <?php
 /**
-Plugin Name: VCWB Elements API example
+Plugin Name: VCWB API example plugin
 Plugin URI: http://visualcomposer.com
-Description: VCWB Elements API example
+Description: Visual Composer Website Builder API example plugin
 Version: 1.0
 Author: Visual Composer
 Author URI: http://visualcomposer.com
